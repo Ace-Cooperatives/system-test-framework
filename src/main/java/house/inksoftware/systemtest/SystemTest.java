@@ -20,16 +20,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.resttestclient.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestContext;
 import org.springframework.test.context.TestExecutionListener;
 import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.File;
 import java.util.*;
@@ -43,7 +41,6 @@ import static org.springframework.test.context.TestExecutionListeners.MergeMode.
 @ActiveProfiles("systemtest")
 @Import(TestRestTemplateConfig.class)
 @RequiredArgsConstructor
-@RunWith(SpringRunner.class)
 public class SystemTest implements TestExecutionListener {
     public static final String TEST_RESOURCES_PATH = "src/test/resources/";
 

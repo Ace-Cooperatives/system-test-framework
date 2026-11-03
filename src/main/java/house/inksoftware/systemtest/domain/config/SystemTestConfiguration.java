@@ -12,7 +12,7 @@ import house.inksoftware.systemtest.domain.sqs.SqsProducerService;
 import house.inksoftware.systemtest.domain.sqs.queue.SqsQueueDefinition;
 import java.util.List;
 import lombok.Data;
-import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.resttestclient.TestRestTemplate;
 import org.springframework.kafka.test.EmbeddedKafkaBroker;
 import software.amazon.awssdk.services.sns.SnsClient;
 import software.amazon.awssdk.services.sqs.SqsClient;

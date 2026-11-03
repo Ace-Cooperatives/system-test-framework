@@ -7,7 +7,7 @@ import house.inksoftware.systemtest.domain.config.SystemTestConfiguration;
 import house.inksoftware.systemtest.domain.config.infra.kafka.incoming.KafkaEventProcessedCallback;
 import house.inksoftware.systemtest.domain.config.infra.rest.RestConfigurationFactory;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.resttestclient.TestRestTemplate;
 import org.springframework.http.HttpEntity;
 
 import static house.inksoftware.systemtest.domain.utils.FileUtils.readJsonStringFromFile;

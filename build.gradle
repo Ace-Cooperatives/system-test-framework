@@ -5,7 +5,7 @@ plugins {
 }
 
 group 'house.inksoftware'
-version 'java-21-0.1.17'
+version 'java-21-0.2.0'
 
 java {
     sourceCompatibility = '21'
@@ -71,10 +71,19 @@ publishing {
 
     repositories {
         mavenLocal()
+        maven {
+            name = 'GitHubPackages'
+            url = uri('https://maven.pkg.github.com/Ace-Cooperatives/system-test-framework')
+            credentials {
+                username = System.getenv('GITHUB_ACTOR')
+                password = System.getenv('GITHUB_TOKEN')
+            }
+        }
     }
 }
 
 signing {
+    required { project.hasProperty('signingKey') }
     sign configurations.archives
     sign publishing.publications.mavenJava
 }
@@ -83,43 +92,46 @@ dependencies {
     implementation 'com.guicedee.services:sl4j:1.0.13.5'
     implementation 'com.google.guava:guava:31.1-jre'
     implementation 'com.github.spullara.mustache.java:compiler:0.9.10'
-    implementation 'org.skyscreamer:jsonassert:1.5.1'
-    implementation 'com.jayway.jsonpath:json-path:2.7.0'
-    implementation 'org.springframework:spring-test:6.0.6'
-    implementation 'org.springframework:spring-web:6.0.6'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.1'
-    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.14.2'
+    implementation 'org.skyscreamer:jsonassert:1.5.3'
+    implementation 'com.jayway.jsonpath:json-path:2.10.0'
+    implementation 'org.springframework:spring-test:7.0.10'
+    implementation 'org.springframework:spring-web:7.0.10'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.21.7'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.21.7'
     implementation 'commons-io:commons-io:2.12.0'
+    implementation 'org.apache.commons:commons-lang3:3.20.0'
 
     implementation 'tech.allegro.schema.json2avro:converter:0.2.15'
     implementation 'org.apache.avro:avro:1.11.1'
 
     implementation "io.confluent:kafka-streams-avro-serde:7.7.1"
-    implementation 'org.apache.kafka:kafka-clients:3.7.1'
-    implementation 'org.springframework.kafka:spring-kafka:3.2.4'
-    implementation 'org.springframework.kafka:spring-kafka-test:3.2.4'
+    implementation 'org.apache.kafka:kafka-clients:4.2.2'
+    implementation 'org.springframework.kafka:spring-kafka:4.1.2'
+    implementation 'org.springframework.kafka:spring-kafka-test:4.1.2'
 
     implementation group: 'cloud.localstack', name: 'localstack-utils', version: '0.2.23'
     implementation 'software.amazon.awssdk:sqs:2.17.98'
     implementation 'software.amazon.awssdk:sns:2.17.98'
 
-    implementation 'org.testcontainers:mssqlserver:1.20.4'
-    implementation 'org.testcontainers:postgresql:1.20.4'
-    implementation 'org.testcontainers:mysql:1.20.4'
+    implementation 'org.testcontainers:testcontainers-mssqlserver:2.0.5'
+    implementation 'org.testcontainers:testcontainers-postgresql:2.0.5'
+    implementation 'org.testcontainers:testcontainers-mysql:2.0.5'
 
-    implementation 'org.testcontainers:kafka:1.20.4'
-    implementation 'org.testcontainers:mockserver:1.20.4'
+    implementation 'org.testcontainers:testcontainers-kafka:2.0.5'
+    implementation 'org.testcontainers:testcontainers-mockserver:2.0.5'
 
-    implementation 'org.awaitility:awaitility:4.2.0'
+    implementation 'org.awaitility:awaitility:4.3.0'
     implementation 'org.awaitility:awaitility-proxy:3.1.6'
 
-    compileOnly 'org.projectlombok:lombok:1.18.30'
-    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+    compileOnly 'org.projectlombok:lombok:1.18.48'
+    annotationProcessor 'org.projectlombok:lombok:1.18.48'
 
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.2'
-    implementation 'org.springframework.boot:spring-boot-starter-test:3.1.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:6.0.3'
+    implementation 'org.springframework.boot:spring-boot-starter-test:4.1.2'
+    implementation 'org.springframework.boot:spring-boot-resttestclient:4.1.2'
+    implementation 'org.springframework.boot:spring-boot-restclient:4.1.2'
 
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:6.0.3'
 }
 
 test {
