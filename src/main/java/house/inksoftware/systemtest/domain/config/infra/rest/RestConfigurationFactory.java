@@ -1,7 +1,7 @@
 package house.inksoftware.systemtest.domain.config.infra.rest;
 
 import house.inksoftware.systemtest.domain.config.SystemTestConfiguration;
-import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.resttestclient.TestRestTemplate;
 
 public class RestConfigurationFactory {
     private static final String DEFAULT_HOST = "http://127.0.0.1";

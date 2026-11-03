@@ -10,7 +10,7 @@ import house.inksoftware.systemtest.domain.utils.JsonUtils;
 import lombok.Data;
 import lombok.SneakyThrows;
 import org.json.JSONException;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 
 import java.util.Collections;
 import java.util.List;
@@ -37,7 +37,7 @@ public class ExpectedRestResponseStep implements ExpectedResponseStep {
     @SneakyThrows
     public void assertResponseIsCorrect(ActualResponse response) {
         JsonUtils.assertJsonEquals(body, response.body());
-        Assert.assertEquals(((ActualRestResponse) response).getStatusCode(), httpCode);
+        Assertions.assertEquals(((ActualRestResponse) response).getStatusCode(), httpCode);
 
         if (!bodyChecks.isEmpty()) {
             validateBodyChecks(response);
@@ -66,15 +66,15 @@ public class ExpectedRestResponseStep implements ExpectedResponseStep {
             Object actualValue = responseContext.read(check.getPath());
             boolean result = check.validate(actualValue);
 
-            Assert.assertTrue(
+            Assertions.assertTrue(
+                    result,
                     String.format(
                             "Body check failed for path '%s'. Expected %s %s but got: %s",
                             check.getPath(),
                             check.getType(),
                             check.getValue(),
                             actualValue
-                    ),
-                    result
+                    )
             );
         }
     }
