@@ -1,9 +1,7 @@
 package house.inksoftware.systemtest.domain.config.infra.sns;
 
-import cloud.localstack.Localstack;
 import house.inksoftware.systemtest.domain.config.infra.LocalstackLauncher;
 import house.inksoftware.systemtest.domain.config.infra.SystemTestResourceLauncher;
-import java.net.URI;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
@@ -19,10 +17,8 @@ public class SystemTestSnsLauncher implements SystemTestResourceLauncher {
 
     @Override
     public void setup() {
-        LocalstackLauncher.launch();
-
         snsClient = SnsClient.builder()
-                .endpointOverride(URI.create(Localstack.INSTANCE.getEndpointSNS()))
+                .endpointOverride(LocalstackLauncher.launch())
                 .region(Region.US_WEST_2)
                 .credentialsProvider(StaticCredentialsProvider.create(AwsBasicCredentials.create("accessKey", "secretKey")))
                 .build();
@@ -33,7 +29,7 @@ public class SystemTestSnsLauncher implements SystemTestResourceLauncher {
         if (snsClient != null) {
             snsClient.close();
         }
-        Localstack.INSTANCE.stop();
+        LocalstackLauncher.stop();
     }
 
     @Override

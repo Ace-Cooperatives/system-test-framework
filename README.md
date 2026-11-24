@@ -116,7 +116,11 @@ Required parameters:
 In Mocked Server configuration you define configuration for your expected API calls with corresponding responses.
 [Full documentation can be found here](https://www.mock-server.com/mock_server/getting_started.html#request_properties_matchers)
 
-Please note that Mocked Server is started on `port 1080`, therefore you need to make sure that in your System Tests configuration you set your API base url as `http://localhost:1080` 
+Mocked Server is started on a free host port. Its address is set as the system property `MOCKSERVER_URL` (for example `http://localhost:32768`), so set your API base url in your System Tests configuration as `${MOCKSERVER_URL}`. Request files can use it as `{{{MOCKSERVER_URL}}}`.
+
+SQS and SNS run in one LocalStack container on a free host port. Its address is set as the system property `LOCALSTACK_URL`; point your AWS endpoint at `${LOCALSTACK_URL}`.
+
+All containers are started through Testcontainers, so they are removed when the test JVM stops, even if it is killed.
 
 Example:
 ```json

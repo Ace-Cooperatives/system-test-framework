@@ -12,7 +12,6 @@ import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.utility.MountableFile;
 
 import java.io.File;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,6 +19,9 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class SystemTestMockedRestServerLauncher implements SystemTestResourceLauncher {
     private static final Logger LOGGER = LoggerFactory.getLogger(SystemTestPostgresLauncher.class);
+
+    public static final String MOCKSERVER_URL = "MOCKSERVER_URL";
+    private static final int MOCKSERVER_PORT = 1080;
 
     private final String relativePathToConfig;
     private GenericContainer container;
@@ -39,8 +41,9 @@ public class SystemTestMockedRestServerLauncher implements SystemTestResourceLau
                     .withEnv(envVariables)
                     .waitingFor(Wait.forLogMessage(".*started on port:.*", 1));
 
-            container.setPortBindings(Arrays.asList("1080:1080/tcp"));
+            container.withExposedPorts(MOCKSERVER_PORT);
             container.start();
+            System.setProperty(MOCKSERVER_URL, "http://" + container.getHost() + ":" + container.getMappedPort(MOCKSERVER_PORT));
             LOGGER.info("Starting REST service mock...");
         }
     }

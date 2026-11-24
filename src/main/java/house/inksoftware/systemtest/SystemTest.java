@@ -33,6 +33,7 @@ import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static house.inksoftware.systemtest.domain.config.infra.mock.SystemTestMockedRestServerLauncher.MOCKSERVER_URL;
 import static org.apache.commons.io.FileUtils.listFiles;
 import static org.springframework.test.context.TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS;
 
@@ -72,8 +73,8 @@ public class SystemTest implements TestExecutionListener {
                 "File system-test-configuration.json is not found! Please add it and define your infra requirements."
         );
         LinkedHashMap<String, Object> infrastructure = findInfraConfig(systemTestConfFile.get());
-        infrastructureLauncher.launchDb(testContext, infrastructure);
         config = infrastructureLauncher.launchAllInfra(infrastructure);
+        infrastructureLauncher.launchDb(testContext, infrastructure);
     }
 
     @NotNull
@@ -131,6 +132,7 @@ public class SystemTest implements TestExecutionListener {
 
         RequestStepFactory requestStepFactory = new RequestStepFactory();
         SystemTestContext context = new SystemTestContext();
+        Optional.ofNullable(System.getProperty(MOCKSERVER_URL)).ifPresent(url -> context.put(MOCKSERVER_URL, url));
         SystemTestExecutionService service = SystemTestExecutionServiceFactory.create(config, basePath);
 
         for (File stepFile : orderedSteps) {

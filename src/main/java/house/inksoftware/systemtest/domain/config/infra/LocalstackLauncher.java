@@ -1,24 +1,34 @@
 package house.inksoftware.systemtest.domain.config.infra;
 
-import cloud.localstack.Localstack;
-import cloud.localstack.docker.annotation.LocalstackDockerConfiguration;
+import java.net.URI;
 import lombok.extern.slf4j.Slf4j;
+import org.testcontainers.localstack.LocalStackContainer;
+import org.testcontainers.utility.DockerImageName;
 
 @Slf4j
 public class LocalstackLauncher {
 
-    private static boolean started = false;
+    public static final String LOCALSTACK_URL = "LOCALSTACK_URL";
 
-    public static void launch() {
-        if (started) {
+    private static LocalStackContainer container;
+
+    public static synchronized URI launch() {
+        if (container != null) {
             log.info("Localstack has already launched");
-            return;
+            return container.getEndpoint();
         }
 
-        Localstack.INSTANCE.startup(LocalstackDockerConfiguration.builder()
-                .useSingleDockerContainer(true)
-                .imageTag("4.14")
-                .build());
-        started = true;
+        container = new LocalStackContainer(DockerImageName.parse("localstack/localstack:4.14"));
+        container.start();
+        System.setProperty(LOCALSTACK_URL, container.getEndpoint().toString());
+        log.info("Started Localstack at {}", container.getEndpoint());
+        return container.getEndpoint();
+    }
+
+    public static synchronized void stop() {
+        if (container != null) {
+            container.stop();
+            container = null;
+        }
     }
 }
